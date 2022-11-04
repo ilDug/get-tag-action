@@ -1,6 +1,6 @@
 {
   "name": "@ildug/get-tag-action",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "A GitHub action that gets pushed tag name and loads it into an action environment variable.",
   "main": "lib/main.js",
