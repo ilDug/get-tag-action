@@ -1,11 +1,40 @@
-name: 'get-tag-action'
-description: 'A GitHub action that gets pushed tag name and loads it into an action environment variable'
+name: 'Get Tag Action'
+description: 'It gets pushed tag name and loads it into an action environment variable'
 author: 'ilDug'
 # inputs:
 #   milliseconds: # change this
 #     required: true
 #     description: 'input description here'
 #     default: 'default value if applicable'
+
+#            MAJOR
+#                |
+#                | MINOR
+#                | | 
+#                | | PATCH
+#                | | |
+#     RELEASE = v2.4.15-beta.3
+#              | |    |   
+#              | |____| VERSION
+#              |______| TAG
+#     
+outputs:
+  release:
+    description: Complete GIT tag
+  tag:
+    description: Semver with 'v'
+  version:
+    description: only numeric version (without 'v' if exists)
+  major:
+    description: MAJOR
+  minor:
+    description: MINOR
+  patch:
+    description: PATCH
+
 runs:
   using: 'node16'
   main: 'dist/index.js'
+branding:
+  icon: 'tag'
+  color: 'black'
