@@ -1,19 +1,34 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from '@actions/core';
+import * as github from '@actions/github';
+import getTag from './getTag'
 
 async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    try {
+        const ref = github.context.ref
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+        const { release, tag, version, major, minor, patch } = getTag(ref);
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
-  }
+        core.exportVariable('DAG_RELEASE', release);
+        core.setOutput('release', release);
+
+        core.exportVariable('DAG_TAG', tag);
+        core.setOutput('tag', tag);
+
+        core.exportVariable('DAG_VERSION', version);
+        core.setOutput('version', version);
+
+        core.exportVariable('DAG_MAJOR', major);
+        core.setOutput('major', major);
+
+        core.exportVariable('DAG_MINOR', minor);
+        core.setOutput('minor', minor);
+
+        core.exportVariable('DAG_PATCH', patch);
+        core.setOutput('patch', patch);
+
+    } catch (error) {
+        if (error instanceof Error) core.setFailed(error.message)
+    }
 }
 
 run()
