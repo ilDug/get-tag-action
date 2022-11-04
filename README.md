@@ -61,7 +61,7 @@ Use it to give specific names to other steps/runs
 
         - name: Get Tags
           id: tag
-          uses: ildug/get-tag-actiong@v1
+          uses: ildug/get-tag-action@v1
         
         - name: My Step
           run: |
