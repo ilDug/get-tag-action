@@ -1,4 +1,4 @@
-# Working.... alfa
+# Get Semver Tag Action
 
 [![build-test](https://github.com/ilDug/get-tag-action/actions/workflows/test.yml/badge.svg)](https://github.com/ilDug/get-tag-action/actions/workflows/test.yml)
 
