@@ -1,6 +1,6 @@
 import { tagSet } from './tagSet';
 
-export default (ref: string): tagSet => {
+export default (ref: string | null): tagSet => {
     let release: string;
     let tag: string;
     let version: string;
@@ -11,19 +11,22 @@ export default (ref: string): tagSet => {
     const prefix = 'refs/tags/';
 
     if (!ref)
-        throw "REF not defined";
+        throw new Error("REF not defined");
     if (!ref.startsWith(prefix))
-        throw `Not a tag ref (${ref})`;
+        throw new Error(`Not a tag ref (${ref})`);
 
     release = ref.replace(/^refs\/tags\//, "");
+
     const tagRegex = new RegExp(/v?([\d*][\.\d*]*)/i);
-    tag = release.match(tagRegex)![0] ?? null;
+    const matches = release.match(tagRegex);
+    tag = matches ? matches[0] : "";
+
     tag = tag.toLowerCase();
     version = tag.startsWith("v") ? tag.replace(/^v/, "") : tag;
     const parts = version.split('.');
     major = parts[0];
-    minor = parts[1] ?? null;
-    patch = parts[2] ?? null;
+    minor = parts[1] ?? "";
+    patch = parts[2] ?? "";
 
     return {
         release: release,

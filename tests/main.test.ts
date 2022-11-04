@@ -3,27 +3,51 @@ import * as process from 'process'
 import * as cp from 'child_process'
 import * as path from 'path'
 import { expect, test } from '@jest/globals'
+import getTag from '../src/getTag'
+import { tagSet } from '../src/tagSet'
 
-test('throws invalid number', async () => {
-    const input = parseInt('foo', 10)
-    await expect(wait(input)).rejects.toThrow('milliseconds not a number')
-})
 
-test('wait 500 ms', async () => {
-    const start = new Date()
-    await wait(500)
-    const end = new Date()
-    var delta = Math.abs(end.getTime() - start.getTime())
-    expect(delta).toBeGreaterThan(450)
-})
-
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-    process.env['INPUT_MILLISECONDS'] = '500'
-    const np = process.execPath
-    const ip = path.join(__dirname, '..', 'lib', 'main.js')
-    const options: cp.ExecFileSyncOptions = {
-        env: process.env
+test("should return Null or Empty for each results", async () => {
+    const ref = "refs/tags/"
+    const res = getTag(ref);
+    let results = Object.values(res)
+    for (const key of results) {
+        expect(key).toBeFalsy()
     }
-    console.log(cp.execFileSync(np, [ip], options).toString())
 })
+
+test("should have release", async () => {
+    const base = "refs/tags/"
+    const t = "v1.2.3-beta.4"
+    const ref = base + t
+    const { release } = getTag(ref);
+    expect(release).toBe(t)
+})
+
+test("should have tag and version", async () => {
+    const ref = "refs/tags/1.2.3-beta.4"
+    const { tag, version } = getTag(ref);
+    expect(tag).toBe(version)
+})
+
+test("should hpass MAJOR MINOR PATCH rule", async () => {
+    const ref = "refs/tags/v1.2.33-beta.4"
+    const { minor, major, patch } = getTag(ref);
+    expect(major).toBe("1")
+    expect(minor).toBe("2")
+    expect(patch).toBe("33")
+})
+
+
+
+test("should throws for No TAGS", async () => {
+    const base = "refs/branch"
+    expect(() => getTag(base)).toThrow(Error)
+})
+
+
+
+test("should throws for empty ref", async () => {
+    expect(getTag).toThrow(Error)
+})
+

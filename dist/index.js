@@ -1,6 +1,48 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 257:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = (ref) => {
+    var _a, _b;
+    let release;
+    let tag;
+    let version;
+    let major;
+    let minor;
+    let patch;
+    const prefix = 'refs/tags/';
+    if (!ref)
+        throw new Error("REF not defined");
+    if (!ref.startsWith(prefix))
+        throw new Error(`Not a tag ref (${ref})`);
+    release = ref.replace(/^refs\/tags\//, "");
+    const tagRegex = new RegExp(/v?([\d*][\.\d*]*)/i);
+    const matches = release.match(tagRegex);
+    tag = matches ? matches[0] : "";
+    tag = tag.toLowerCase();
+    version = tag.startsWith("v") ? tag.replace(/^v/, "") : tag;
+    const parts = version.split('.');
+    major = parts[0];
+    minor = (_a = parts[1]) !== null && _a !== void 0 ? _a : "";
+    patch = (_b = parts[2]) !== null && _b !== void 0 ? _b : "";
+    return {
+        release: release,
+        tag: tag,
+        version: version,
+        major: major,
+        minor: minor,
+        patch: patch
+    };
+};
+
+
+/***/ }),
+
 /***/ 3109:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -38,34 +80,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+const getTag_1 = __importDefault(__nccwpck_require__(257));
 function run() {
-    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let release;
-            let tag;
-            let version;
-            let major;
-            let minor;
-            let patch;
             const ref = github.context.ref;
-            const prefix = 'refs/tags/';
-            if (!ref)
-                throw "REF not defined";
-            if (!ref.startsWith(prefix))
-                throw `Not a tag ref (${ref})`;
-            release = ref.replace(/^refs\/tags\//, "");
-            const tagRegex = new RegExp(/v?([\d*][\.\d*]*)/i);
-            tag = (_a = release.match(tagRegex)[0]) !== null && _a !== void 0 ? _a : "";
-            tag = tag.toLowerCase();
-            version = tag.startsWith("v") ? tag.replace(/^v/, "") : tag;
-            const parts = version.split('.');
-            major = parts[0];
-            minor = (_b = parts[1]) !== null && _b !== void 0 ? _b : "";
-            patch = (_c = parts[2]) !== null && _c !== void 0 ? _c : "";
+            const { release, tag, version, major, minor, patch } = (0, getTag_1.default)(ref);
             core.exportVariable('DAG_RELEASE', release);
             core.setOutput('release', release);
             core.exportVariable('DAG_TAG', tag);
