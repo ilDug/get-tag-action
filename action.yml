@@ -1,5 +1,5 @@
-name: 'Get Tag Action'
-description: 'It gets pushed tag name and loads it into an action environment variable'
+name: 'Get Semver Tag'
+description: 'It gets pushed GIT tag and loads it into an action environment variable'
 author: 'ilDug'
 # inputs:
 #   milliseconds: # change this
