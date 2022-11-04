@@ -35,6 +35,9 @@ async function run(): Promise<void> {
         core.exportVariable('DAG_TAG', tag)
         core.setOutput('tag', tag)
 
+        core.exportVariable('DAG_VERSION', version)
+        core.setOutput('version', version)
+
         core.exportVariable('DAG_MAJOR', major)
         core.setOutput('major', major)
 

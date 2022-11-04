@@ -70,6 +70,8 @@ function run() {
             core.setOutput('release', release);
             core.exportVariable('DAG_TAG', tag);
             core.setOutput('tag', tag);
+            core.exportVariable('DAG_VERSION', version);
+            core.setOutput('version', version);
             core.exportVariable('DAG_MAJOR', major);
             core.setOutput('major', major);
             core.exportVariable('DAG_MINOR', minor);

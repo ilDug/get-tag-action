@@ -1,24 +1,35 @@
-name: 'build-test'
+name: "build-test"
 on: # rebuild any PRs and main branch changes
-  pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
+    pull_request:
+    push:
+        # branches:
+        #     - main
+        #     - "releases/*"
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          npm ci
-      - run: |
-          npm run all
-  test: # make sure the action works on a clean machine without building
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./
-        with:
-          milliseconds: 1000
+    build: # make sure build/ci work properly
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - run: |
+                  npm ci
+            - run: |
+                  npm run all
+    test: # make sure the action works on a clean machine without building
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Perform Get Tag
+              id: tag
+              uses: ./
+
+            - name: Output
+              run: |
+                  echo ${{steps.tag.outputs.release}}
+                  echo ${{steps.tag.outputs.tag}}
+                  echo ${{steps.tag.outputs.version}}
+                  echo ${{steps.tag.outputs.major}}
+                  echo ${{steps.tag.outputs.minor}}
+                  echo ${{steps.tag.outputs.patch}}
