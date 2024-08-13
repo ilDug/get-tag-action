@@ -1,6 +1,6 @@
-name: 'Get Semver Tag'
-description: 'It gets pushed GIT tag and loads it into an action environment variable'
-author: 'ilDug'
+name: "Get Semver Tag"
+description: "It gets pushed GIT tag and loads it into an action environment variable"
+author: "ilDug"
 # inputs:
 #   milliseconds: # change this
 #     required: true
@@ -10,31 +10,31 @@ author: 'ilDug'
 #            MAJOR
 #                |
 #                | MINOR
-#                | | 
+#                | |
 #                | | PATCH
 #                | | |
 #     RELEASE = v2.4.15-beta.3
-#              | |    |   
+#              | |    |
 #              | |____| VERSION
 #              |______| TAG
-#     
+#
 outputs:
-  release:
-    description: Complete GIT tag
-  tag:
-    description: Semver with 'v'
-  version:
-    description: only numeric version (without 'v' if exists)
-  major:
-    description: MAJOR
-  minor:
-    description: MINOR
-  patch:
-    description: PATCH
+    release:
+        description: Complete GIT tag
+    tag:
+        description: Semver with 'v'
+    version:
+        description: only numeric version (without 'v' if exists)
+    major:
+        description: MAJOR
+    minor:
+        description: MINOR
+    patch:
+        description: PATCH
 
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+    using: "node20"
+    main: "dist/index.js"
 branding:
-  icon: 'tag'
-  color: 'black'
+    icon: "tag"
+    color: "black"
